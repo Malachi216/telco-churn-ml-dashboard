@@ -10,7 +10,7 @@ import streamlit as st
 import pandas as pd
 
 from src.models.predict import load_model, predict_proba
-
+from src.utils.load_data import clean_telco
 
 st.set_page_config(page_title="Predict — Telco Churn", layout="wide")
 st.title("Predict Churn — ML Inference")
@@ -42,6 +42,9 @@ if uploaded is None:
     st.stop()
 
 df_up = pd.read_csv(uploaded)
+# Apply cleaning so numeric columns like TotalCharges don't break the model
+from src.utils.load_data import clean_telco
+df_up = clean_telco(df_up)
 
 # Drop target if present
 if "Churn" in df_up.columns:
