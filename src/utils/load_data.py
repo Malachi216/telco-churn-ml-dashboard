@@ -61,3 +61,20 @@ def split_X_y(df: pd.DataFrame, target_col: str = "Churn"):
     X = df.drop(columns=[target_col])
 
     return X, y.astype(int), customer_id
+
+def clean_telco(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Apply the same cleaning rules to any Telco dataframe (including uploaded CSVs).
+    """
+    df = df.copy()
+
+    # Strip whitespace in object columns (prevents ' ' values)
+    obj_cols = df.select_dtypes(include=["object"]).columns
+    for c in obj_cols:
+        df[c] = df[c].astype(str).str.strip()
+
+    # TotalCharges: blanks -> NaN, convert to numeric
+    if "TotalCharges" in df.columns:
+        df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
+
+    return df
