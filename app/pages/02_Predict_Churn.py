@@ -153,7 +153,7 @@ else:
     except Exception as e:
         st.warning("Could not generate global feature importance.")
         st.code(str(e))
-        
+
 # -------------------------
 # Batch scoring
 # -------------------------
@@ -296,3 +296,5 @@ try:
 except Exception as e:
     st.warning("Could not generate single-customer explanation.")
     st.code(str(e))
+
+#done marker

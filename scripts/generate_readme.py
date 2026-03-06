@@ -108,7 +108,7 @@ streamlit run app/Home.py
 
 ### Data Insights
 ![Data Insights Dashboard](reports/figures/datainsights.png)
-![Data Insights Dashboard](reports/figures/datainsights1.png)
+![Data Insights Dashboard](reports/figures/datainsights2.png)
 
 ### Predict Churn
 ![Prediction Dashboard](reports/figures/predict1.png)
