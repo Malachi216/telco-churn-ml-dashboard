@@ -71,27 +71,27 @@ if meta:
 # -------------------------
 if EVAL_DIR.exists():
     try:
-        X_test = pd.read_parquet(EVAL_DIR / "X_test.parquet")
-        y_test = pd.read_parquet(EVAL_DIR / "y_test.parquet")["y"]
+        X_eval_metrics = pd.read_csv(EVAL_DIR / "X_test.csv")
+        y_eval_metrics = pd.read_csv(EVAL_DIR / "y_test.csv")["y"]
 
         if expected_features is not None:
             for c in expected_features:
-                if c not in X_test.columns:
-                    X_test[c] = pd.NA
+                if c not in X_eval_metrics.columns:
+                    X_eval_metrics[c] = pd.NA
 
-            extra = [c for c in X_test.columns if c not in expected_features]
+            extra = [c for c in X_eval_metrics.columns if c not in expected_features]
             if extra:
-                X_test = X_test.drop(columns=extra)
+                X_eval_metrics = X_eval_metrics.drop(columns=extra)
 
-            X_test = X_test[expected_features]
+            X_eval_metrics = X_eval_metrics[expected_features]
 
-        p_test = predict_proba(model, X_test)
+        p_test = predict_proba(model, X_eval_metrics)
         y_pred = (p_test >= threshold).astype(int)
 
-        acc = accuracy_score(y_test, y_pred)
-        prec = precision_score(y_test, y_pred, zero_division=0)
-        rec = recall_score(y_test, y_pred, zero_division=0)
-        f1 = f1_score(y_test, y_pred, zero_division=0)
+        acc = accuracy_score(y_eval_metrics, y_pred)
+        prec = precision_score(y_eval_metrics, y_pred, zero_division=0)
+        rec = recall_score(y_eval_metrics, y_pred, zero_division=0)
+        f1 = f1_score(y_eval_metrics, y_pred, zero_division=0)
 
         st.subheader("Model performance at selected threshold")
         m1, m2, m3, m4 = st.columns(4)
@@ -100,7 +100,7 @@ if EVAL_DIR.exists():
         m3.metric("Recall", f"{rec:.3f}")
         m4.metric("F1", f"{f1:.3f}")
 
-        cm = confusion_matrix(y_test, y_pred)
+        cm = confusion_matrix(y_eval_metrics, y_pred)
         cm_df = pd.DataFrame(
             cm,
             index=["Actual 0", "Actual 1"],
@@ -126,20 +126,20 @@ else:
         if not EVAL_DIR.exists():
             st.warning("Evaluation files not found. Re-run training first.")
         else:
-            X_eval = pd.read_parquet(EVAL_DIR / "X_test.parquet")
+            X_eval_importance = pd.read_csv(EVAL_DIR / "X_test.csv")
 
             if expected_features is not None:
                 for c in expected_features:
-                    if c not in X_eval.columns:
-                        X_eval[c] = pd.NA
+                    if c not in X_eval_importance.columns:
+                        X_eval_importance[c] = pd.NA
 
-                extra = [c for c in X_eval.columns if c not in expected_features]
+                extra = [c for c in X_eval_importance.columns if c not in expected_features]
                 if extra:
-                    X_eval = X_eval.drop(columns=extra)
+                    X_eval_importance = X_eval_importance.drop(columns=extra)
 
-                X_eval = X_eval[expected_features]
+                X_eval_importance = X_eval_importance[expected_features]
 
-            imp_df = get_xgb_feature_importance(model, X_eval, top_n=15)
+            imp_df = get_xgb_feature_importance(model, X_eval_importance, top_n=15)
 
             fig_imp = px.bar(
                 imp_df.sort_values("importance"),
@@ -153,7 +153,7 @@ else:
     except Exception as e:
         st.warning("Could not generate global feature importance.")
         st.code(str(e))
-
+        
 # -------------------------
 # Batch scoring
 # -------------------------
