@@ -97,9 +97,14 @@ streamlit run app/Home.py
 ---
 ## Screenshots
 
-reports/figures/data_insights.png
+### Data Insights
+![Main UI](reports/figures/datainsights.png)
+![Main UI](reports/figures/datainsights1.png)
 
-reports/figures/predict_churn.png
+### Predict Churn
+![Main UI](reports/figures/predict1.png)
+![Main UI](reports/figures/predict2.png)
+
 ---
 
 # Tech Stack
