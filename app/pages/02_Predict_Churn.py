@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 import json
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
@@ -20,6 +22,45 @@ MODELS_DIR = Path("models")
 model_choice = st.sidebar.selectbox("Model", ["logreg", "xgb"])
 threshold = st.sidebar.slider("Decision threshold", 0.05, 0.95, 0.50, 0.05)
 
+eval_dir = Path("models/eval")
+if eval_dir.exists():
+    try:
+        X_test = pd.read_parquet(eval_dir / "X_test.parquet")
+        y_test = pd.read_parquet(eval_dir / "y_test.parquet")["y"]
+
+        # Align test features same way
+        if expected_features is not None:
+            for c in expected_features:
+                if c not in X_test.columns:
+                    X_test[c] = pd.NA
+            extra = [c for c in X_test.columns if c not in expected_features]
+            if extra:
+                X_test = X_test.drop(columns=extra)
+            X_test = X_test[expected_features]
+
+        p = predict_proba(model, X_test)
+        y_pred = (p >= threshold).astype(int)
+
+        acc = accuracy_score(y_test, y_pred)
+        prec = precision_score(y_test, y_pred, zero_division=0)
+        rec = recall_score(y_test, y_pred, zero_division=0)
+        f1 = f1_score(y_test, y_pred, zero_division=0)
+
+        st.subheader("Model performance at selected threshold")
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Accuracy", f"{acc:.3f}")
+        m2.metric("Precision", f"{prec:.3f}")
+        m3.metric("Recall", f"{rec:.3f}")
+        m4.metric("F1", f"{f1:.3f}")
+
+        cm = confusion_matrix(y_test, y_pred)
+        st.write("Confusion Matrix (TN FP / FN TP)")
+        st.code(cm)
+
+    except Exception as e:
+        st.warning("Evaluation set exists but could not be loaded.")
+        st.code(str(e))
+
 # Load model
 try:
     model = load_model(model_choice)
@@ -33,6 +74,11 @@ expected_features = None
 if meta_path.exists():
     meta = json.loads(meta_path.read_text())
     expected_features = meta.get("features", None)
+
+if expected_features is not None and meta_path.exists():
+    st.sidebar.markdown("### Model metrics")
+    st.sidebar.write(f"ROC-AUC: **{meta['roc_auc']:.3f}**")
+    st.sidebar.write(f"PR-AUC: **{meta['pr_auc']:.3f}**")
 
 st.subheader("Batch scoring (CSV)")
 uploaded = st.file_uploader("Upload a CSV (same schema as training)", type=["csv"])

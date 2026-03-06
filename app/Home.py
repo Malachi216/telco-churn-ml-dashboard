@@ -1,20 +1,37 @@
 import streamlit as st
 
-st.set_page_config(page_title="Telco Churn — Data + ML Dashboard", layout="wide")
+st.set_page_config(page_title="Telco Churn Dashboard", layout="wide")
 
-st.title("Telco Customer Churn — Data Insights + ML Prediction")
+st.title("📉 Telco Customer Churn — Portfolio Dashboard")
+st.caption("Interactive analytics + deployable churn prediction system (LogReg / XGBoost).")
 
-st.sidebar.header("Mode")
-mode = st.sidebar.radio("Choose view", ["Data Insights", "Predict Churn"])
+c1, c2, c3 = st.columns(3)
 
-st.info("Project status: dashboard skeleton is live. Next: load dataset + charts + model pipeline.")
+with c1:
+    st.subheader("🔎 Data Insights")
+    st.write("- KPI cards + filters\n- Churn segmentation\n- Revenue-at-risk view")
+    st.info("Open from the left sidebar: **Data Insights**")
 
-if mode == "Data Insights":
-    st.subheader("Data Insights")
-    st.write("✅ Add: KPI cards, churn breakdowns, interactive filters, segment insights.")
-    st.write("Next files we’ll create: `src/utils/load_data.py`, `src/features/eda.py`.")
+with c2:
+    st.subheader("🤖 Predict Churn")
+    st.write("- Model metrics (ROC/PR)\n- Threshold slider\n- Batch scoring + download")
+    st.info("Open from the left sidebar: **Predict Churn**")
 
-elif mode == "Predict Churn":
-    st.subheader("Predict Churn")
-    st.write("✅ Add: model selector, threshold slider, single-customer prediction, batch upload scoring.")
-    st.write("Next files we’ll create: `src/models/train.py`, `src/models/predict.py` + saved model in `models/`.")
+with c3:
+    st.subheader("🧾 What this proves")
+    st.write("- Data cleaning pipeline\n- Model training + persistence\n- Deployable app UX\n- Business framing")
+    st.success("Recruiter-ready end-to-end project")
+
+st.divider()
+
+st.markdown(
+    """
+### Quickstart
+1. Train models: `python -m src.models.train`  
+2. Run app: `streamlit run app/Home.py`
+
+### Notes
+- Dataset not committed (kept in `data/raw/`)
+- Models saved in `models/`
+"""
+)
