@@ -95,13 +95,13 @@ streamlit run app/Home.py
 ## Screenshots
 
 ### Data Insights
-![Data Insights Dashboard](reports/figures/datainsights.png.png)
-![Data Insights Dashboard](reports/figures/datainsights1.png.png)
+![Data Insights Dashboard](reports/figures/datainsights.png)
+![Data Insights Dashboard](reports/figures/datainsights1.png)
 
 ### Predict Churn
-![Prediction Dashboard](reports/figures/predict1.png.png)
-![Prediction Dashboard](reports/figures/predict2.png.png)
-![Prediction Dashboard](reports/figures/predict3.png,png)
+![Prediction Dashboard](reports/figures/predict1.png)
+![Prediction Dashboard](reports/figures/predict2.png)
+![Prediction Dashboard](reports/figures/predict3.png)
 
 ---
 

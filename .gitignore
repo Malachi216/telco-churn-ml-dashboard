@@ -1,8 +1,15 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+
+# Data and models (large / generated)
 data/
 models/
-reports/figures/
+
+# OS / environment
 .DS_Store
 .env
+
+# Optional: ignore notebook checkpoints
+.ipynb_checkpoints/
