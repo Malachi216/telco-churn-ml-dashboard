@@ -106,11 +106,12 @@ Streamlit
 
 ---
 
-# What This Project Demonstrates
+## Author
 
-• End-to-end machine learning pipeline  
-• Data analysis and visualization  
-• Model evaluation and threshold tuning  
-• Production-style project structure  
-• Interactive deployment using Streamlit
+Olaoluwa Malachi
+📧 olaoluwa.malachi@unb.ca
+
+## License
+
+This project is licensed under the MIT License.
 
