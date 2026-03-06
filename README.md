@@ -70,7 +70,16 @@ telco-churn-ml-dashboard
 ├── models/ # Saved models + metadata
 ├── data/raw/ # Dataset (not committed)
 ├── notebooks/ # EDA / experiments
+├─ README.md
+├─ reports
+│  └─ figures
+│     ├─ datainsights.png
+│     ├─ datainsights1.png
+│     ├─ predict1.png
+│     └─ predict2.png
+│     └─ predict3.png
 └── scripts/ # Utility scripts
+
 ```
 ---
 
@@ -86,12 +95,13 @@ streamlit run app/Home.py
 ## Screenshots
 
 ### Data Insights
-![Main UI](reports/figures/datainsights.png)
-![Main UI](reports/figures/datainsights1.png)
+![Data Insights Dashboard](reports/figures/datainsights.png.png)
+![Data Insights Dashboard](reports/figures/datainsights1.png.png)
 
 ### Predict Churn
-![Main UI](reports/figures/predict1.png)
-![Main UI](reports/figures/predict2.png)
+![Prediction Dashboard](reports/figures/predict1.png.png)
+![Prediction Dashboard](reports/figures/predict2.png.png)
+![Prediction Dashboard](reports/figures/predict3.png,png)
 
 ---
 
