@@ -1,5 +1,5 @@
 
-# Telco Customer Churn — Data Insights + ML Dashboard
+# Telco  Churn — Data Insights + ML Dashboard
 
 A deployable end-to-end churn prediction project built with **Streamlit**.
 
